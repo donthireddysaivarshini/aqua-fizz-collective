@@ -1,132 +1,112 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { ChevronDown } from "lucide-react";
-import heroImage from "@/assets/hero-bottles.png";
+import { smoothScrollTo } from "@/lib/scroll";
+import { useEffect, useState } from "react";
 
-const Bubbles = () => {
-  const bubbles = Array.from({ length: 25 }, (_, i) => ({
-    id: i,
-    size: Math.random() * 20 + 6,
-    left: Math.random() * 100,
-    delay: Math.random() * 10,
-    duration: Math.random() * 5 + 8,
-    opacity: Math.random() * 0.3 + 0.1,
-  }));
-
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      {bubbles.map((bubble) => (
-        <div
-          key={bubble.id}
-          className="absolute rounded-full bg-white animate-bubble"
-          style={{
-            width: bubble.size,
-            opacity: bubble.opacity,
-            height: bubble.size,
-            left: `${bubble.left}%`,
-            bottom: "-20px",
-            animationDelay: `${bubble.delay}s`,
-            animationDuration: `${bubble.duration}s`,
-          }}
-        />
-      ))}
-    </div>
-  );
-};
+const heroImages = [
+  "/images/hero1.png",
+  "/images/hero2.png",
+  "/images/hero3.png",
+];
 
 const Hero = () => {
-  const scrollToProducts = () => {
-    document.getElementById("products")?.scrollIntoView({ behavior: "smooth" });
-  };
+  const [currentImage, setCurrentImage] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImage((prev) => (prev + 1) % heroImages.length);
+    }, 5000); 
+
+    return () => clearInterval(interval);
+  }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden gradient-ocean">
-      {/* Background bubbles */}
-      <Bubbles />
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      
+      {/* --- IMAGE BACKGROUND SLIDER --- */}
+      <div className="absolute inset-0 w-full h-full bg-black"> {/* Added bg-black to prevent any white flashes */}
+        
+        {/* REMOVED mode="wait" to allow overlap */}
+        <AnimatePresence initial={false}>
+          <motion.img
+            key={currentImage}
+            src={heroImages[currentImage]}
+            alt="Andhra Goli Soda Hero"
+            className="absolute inset-0 w-full h-full object-cover"
+            style={{ filter: 'blur(2px)' }} 
+            
+            // Seamless Fade Logic
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1, scale: 1.05 }} // Slight slow zoom in
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.5, ease: "easeInOut" }} // Slower blend duration
+          />
+        </AnimatePresence>
 
-      {/* Gradient overlay for depth */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/20" />
+        {/* OVERLAYS */}
+        <div className="absolute inset-0 bg-black/50 z-10" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/20 to-black/60 z-10" />
+      </div>
 
-      <div className="container-custom relative z-10 pt-20 pb-10">
+      <div className="container-custom relative z-20 pt-24 pb-16">
         <div className="flex flex-col items-center text-center">
-          {/* Logo/Brand */}
           <motion.div
             initial={{ opacity: 0, y: -30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             className="mb-6"
           >
-            <span className="text-white/80 text-sm md:text-base tracking-[0.3em] uppercase font-sans font-medium">
+            <span className="text-white/90 text-xs md:text-sm tracking-[0.3em] uppercase font-semibold border border-white/20 px-4 py-2 rounded-full backdrop-blur-sm">
               Premium Heritage Beverage
             </span>
           </motion.div>
 
-          {/* Main Title */}
           <motion.h1
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="font-serif text-5xl md:text-7xl lg:text-8xl font-bold text-white mb-4 tracking-tight"
-            style={{ textShadow: "0 0 60px rgba(0, 255, 202, 0.3)" }}
+            className="font-serif text-5xl md:text-7xl lg:text-9xl font-bold text-white mb-6 tracking-tight leading-tight"
           >
             ANDHRA
             <br />
-            <span className="text-aqua">GOLI SODA</span>
+            <span 
+                className="text-transparent bg-clip-text bg-gradient-to-r from-cyan-200 via-white to-blue-300 pb-4 inline-block"
+                style={{ 
+                    filter: 'drop-shadow(0 0 15px rgba(34, 211, 238, 0.6)) drop-shadow(0 0 5px rgba(255, 255, 255, 0.8))'
+                }}
+            >
+              GOLI SODA
+            </span>
           </motion.h1>
 
-          {/* Tagline */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.6 }}
-            className="text-white/90 text-lg md:text-2xl font-serif italic mb-8"
+            className="text-gray-100 text-lg md:text-2xl font-serif italic mb-12 max-w-2xl mx-auto"
+            style={{ textShadow: "0 2px 4px rgba(0,0,0,0.5)" }}
           >
-            An Old Kind of Soda
+            Experience the fizzy nostalgia of an old kind of soda, reimagined for today.
           </motion.p>
 
-          {/* Hero Image - Floating Bottles */}
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.8 }}
-            className="relative w-full max-w-4xl mx-auto my-8"
-          >
-            <motion.img
-              src={heroImage}
-              alt="Andhra Goli Soda Collection"
-              className="w-full h-auto drop-shadow-2xl"
-              animate={{ y: [0, -15, 0] }}
-              transition={{
-                duration: 6,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-              style={{
-                filter: "drop-shadow(0 30px 60px rgba(0, 0, 0, 0.4))",
-              }}
-            />
-            
-            {/* Glow effect under bottles */}
-            <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3/4 h-20 bg-aqua/20 blur-3xl rounded-full" />
-          </motion.div>
-
-          {/* CTA Button */}
-          <motion.button
+          <motion.a
+            href="#products"
+            onClick={(e) => smoothScrollTo(e, "#products")}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 1 }}
-            onClick={scrollToProducts}
-            className="group relative px-10 py-4 bg-white/10 backdrop-blur-xl border border-white/30 rounded-full text-white font-semibold text-lg overflow-hidden transition-all duration-300 hover:bg-white/20 hover:border-aqua/50 hover:shadow-[0_0_40px_rgba(0,255,202,0.3)]"
+            transition={{ duration: 0.8, delay: 0.8 }}
+            className="relative z-20 group inline-flex items-center gap-2 px-10 py-4 bg-white/10 backdrop-blur-md border border-white/30 rounded-full text-white font-semibold text-lg overflow-hidden transition-all duration-300 hover:bg-white/20 hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.3)] cursor-pointer"
           >
             <span className="relative z-10 flex items-center gap-2">
               Explore Flavours
               <ChevronDown className="w-5 h-5 group-hover:translate-y-1 transition-transform" />
             </span>
-          </motion.button>
+          </motion.a>
         </div>
       </div>
 
-      {/* Bottom wave decoration */}
-      <div className="absolute bottom-0 left-0 right-0">
+      {/* Bottom wave */}
+      <div className="absolute bottom-0 left-0 right-0 z-20">
         <svg
           viewBox="0 0 1440 120"
           className="w-full h-auto"

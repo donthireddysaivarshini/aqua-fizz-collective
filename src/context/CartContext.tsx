@@ -24,22 +24,18 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   useEffect(() => {
-    try {
-      const savedCart = localStorage.getItem("goli-soda-cart");
-      if (savedCart) {
+    const savedCart = localStorage.getItem("goli-soda-cart");
+    if (savedCart) {
+      try {
         setItems(JSON.parse(savedCart));
+      } catch (e) {
+        console.error("Failed to parse cart", e);
       }
-    } catch (e) {
-      console.error("Failed to parse cart", e);
     }
   }, []);
 
   useEffect(() => {
-    try {
-      localStorage.setItem("goli-soda-cart", JSON.stringify(items));
-    } catch (e) {
-      console.error("Failed to save cart", e);
-    }
+    localStorage.setItem("goli-soda-cart", JSON.stringify(items));
   }, [items]);
 
   const addItem = (item: Product) => {
@@ -50,7 +46,8 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
           i.id === item.id ? { ...i, quantity: i.quantity + 1 } : i
         );
       }
-      setIsCartOpen(true);
+      
+      // setIsCartOpen(true);
       return [...prev, { ...item, quantity: 1 }];
     });
   };

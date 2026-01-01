@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Instagram, Facebook, Twitter, MapPin, Phone, Mail } from "lucide-react";
+import { MapPin, Phone, Mail } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -13,42 +13,45 @@ const Footer = () => {
         >
           <path
             d="M0,64 C480,0 960,120 1440,64 L1440,120 L0,120 Z"
-            className="fill-ocean-deep"
+            className="fill-[hsl(var(--soda-primary))] opacity-90"
+            style={{ fill: "#0A4D68" }}
           />
         </svg>
       </div>
 
-      <div className="gradient-ocean-vertical pt-20 pb-10">
+      {/* Main Footer Background */}
+      <div className="bg-gradient-to-b from-[#0A4D68] to-[#052e3e] pt-20 pb-10">
         <div className="container-custom">
           <div className="grid md:grid-cols-3 gap-12 mb-12">
-            {/* Brand */}
+
+            {/* BRAND SECTION */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <h3 className="font-serif text-3xl font-bold text-white mb-4">
-                Andhra Goli Soda
-              </h3>
-              <p className="text-white/70 leading-relaxed mb-6">
-                Tradition, bottled fresh. Experience the authentic taste of India's
-                beloved heritage beverage, crafted with love since 1872.
-              </p>
-              <div className="flex gap-4">
-                {[Instagram, Facebook, Twitter].map((Icon, i) => (
-                  <a
-                    key={i}
-                    href="#"
-                    className="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center text-white hover:bg-white/20 hover:scale-110 transition-all duration-300"
-                  >
-                    <Icon className="w-5 h-5" />
-                  </a>
-                ))}
+              {/* LOGO + TITLE */}
+              <div className="flex items-center gap-3 mb-6">
+                <div className="bg-white/10 p-2 rounded-full backdrop-blur-sm">
+                  <img
+                    src="/images/logo.png"
+                    alt="Andhra Goli Soda Logo"
+                    className="h-12 w-auto object-contain"
+                  />
+                </div>
+                <h3 className="font-serif text-2xl font-bold text-white">
+                  Andhra Goli Soda
+                </h3>
               </div>
+
+              <p className="text-white/70 leading-relaxed max-w-sm">
+                Tradition, bottled fresh. Experience the authentic taste of
+                Andhra’s beloved heritage beverage.
+              </p>
             </motion.div>
 
-            {/* Quick Links */}
+            {/* QUICK LINKS */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -59,11 +62,11 @@ const Footer = () => {
                 Quick Links
               </h4>
               <ul className="space-y-3">
-                {["Our Story", "Flavours", "Wholesale", "Contact"].map((link) => (
+                {["Home","Our Story", "Flavours"].map((link) => (
                   <li key={link}>
                     <a
-                      href="#"
-                      className="text-white/70 hover:text-aqua transition-colors"
+                      href={link === "Flavours" ? "#products" : "#story"}
+                      className="text-white/70 hover:text-[hsl(var(--soda-primary))] transition-colors"
                     >
                       {link}
                     </a>
@@ -72,7 +75,7 @@ const Footer = () => {
               </ul>
             </motion.div>
 
-            {/* Contact */}
+            {/* CONTACT */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -80,38 +83,36 @@ const Footer = () => {
               transition={{ duration: 0.6, delay: 0.2 }}
             >
               <h4 className="font-serif text-xl font-bold text-white mb-6">
-                Get In Touch
+                Contact
               </h4>
+
               <ul className="space-y-4">
+                {/* Address */}
                 <li className="flex items-start gap-3">
-                  <MapPin className="w-5 h-5 text-aqua mt-0.5" />
-                  <span className="text-white/70">
-                    Manchester, United Kingdom
+                  <MapPin className="w-5 h-5 text-[hsl(var(--soda-primary))] mt-0.5" />
+                  <span className="text-white/70 leading-relaxed">
+                    Kanavaram Village, <br />
+                    Rajanagara Mandal
                   </span>
                 </li>
+
+                {/* Phone */}
                 <li className="flex items-center gap-3">
-                  <Phone className="w-5 h-5 text-aqua" />
+                  <Phone className="w-5 h-5 text-[hsl(var(--soda-primary))]" />
                   <a
-                    href="tel:+447940392567"
-                    className="text-white/70 hover:text-aqua transition-colors"
+                    href="tel:9505055055"
+                    className="text-white/70 hover:text-[hsl(var(--soda-primary))] transition-colors"
                   >
-                    +44 794 039 2567
+                    95050 55055
                   </a>
                 </li>
-                <li className="flex items-center gap-3">
-                  <Mail className="w-5 h-5 text-aqua" />
-                  <a
-                    href="mailto:hello@andhragolisoda.co.uk"
-                    className="text-white/70 hover:text-aqua transition-colors"
-                  >
-                    hello@andhragolisoda.co.uk
-                  </a>
-                </li>
+
+                
               </ul>
             </motion.div>
           </div>
 
-          {/* Bottom bar */}
+          {/* BOTTOM BAR */}
           <div className="border-t border-white/10 pt-8">
             <div className="flex flex-col md:flex-row justify-between items-center gap-4 text-center">
               <p className="text-white/50 text-sm">

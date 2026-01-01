@@ -1,12 +1,10 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, ShoppingBag } from "lucide-react";
-import { useCart } from "@/context/CartContext";
+import { Menu, X } from "lucide-react";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const { totalItems, setIsCartOpen } = useCart();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,8 +16,8 @@ const Navbar = () => {
 
   const navLinks = [
     { name: "Home", href: "#" },
-    { name: "Flavours", href: "#products" },
     { name: "Our Story", href: "#story" },
+    { name: "Flavours", href: "#products" },
     { name: "Contact", href: "#footer" },
   ];
 
@@ -35,6 +33,10 @@ const Navbar = () => {
     }
   };
 
+  const handleOrderNow = () => {
+    scrollToSection("#products");
+  };
+
   return (
     <>
       <motion.nav
@@ -43,24 +45,26 @@ const Navbar = () => {
         transition={{ duration: 0.6 }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           isScrolled
-            ? "bg-white/90 backdrop-blur-xl shadow-lg border-b border-border"
+            ? "bg-white/95 backdrop-blur-xl shadow-lg border-b border-white/20"
             : "bg-transparent"
         }`}
       >
         <div className="container-custom">
-          <div className="flex items-center justify-between h-16 md:h-20">
-            {/* Logo */}
+          <div className="flex items-center justify-between h-20 md:h-24">
+            {/* Logo Section */}
             <a
               href="#"
               onClick={(e) => {
                 e.preventDefault();
                 scrollToSection("#");
               }}
-              className={`font-serif text-xl md:text-2xl font-bold transition-colors ${
-                isScrolled ? "text-ocean-deep" : "text-white"
-              }`}
+              className="flex items-center gap-2"
             >
-              Goli Soda
+              <img 
+                src="/images/logo.png" 
+                alt="Andhra Goli Soda" 
+                className="h-12 md:h-16 w-auto object-contain transition-transform duration-300 hover:scale-105"
+              />
             </a>
 
             {/* Desktop Navigation */}
@@ -73,58 +77,43 @@ const Navbar = () => {
                     e.preventDefault();
                     scrollToSection(link.href);
                   }}
-                  className={`text-sm font-medium transition-colors hover:opacity-80 ${
-                    isScrolled ? "text-foreground" : "text-white/90"
-                  }`}
+                  // UPDATED: Hover effect uses the Gradient Text (Aqua Frost)
+                  className={`text-sm font-bold tracking-wide uppercase transition-all duration-300
+                    hover:text-transparent hover:bg-clip-text hover:bg-gradient-to-r hover:from-cyan-300 hover:to-blue-200
+                    ${isScrolled ? "text-[hsl(var(--soda-depth))]" : "text-white"}
+                  `}
                 >
                   {link.name}
                 </a>
               ))}
               
-              {/* Cart Button */}
+              {/* Desktop Order Now Button - UPDATED to Aqua Frost */}
               <button
-                onClick={() => setIsCartOpen(true)}
-                className={`relative flex items-center gap-2 px-4 py-2 rounded-full transition-all ${
-                  isScrolled
-                    ? "bg-ocean-deep text-white hover:bg-ocean-mid"
-                    : "bg-white/20 text-white hover:bg-white/30"
-                }`}
+                onClick={handleOrderNow}
+                className={`px-8 py-3 rounded-full font-bold text-xs tracking-widest uppercase transition-all hover:scale-105 
+                  bg-gradient-to-r from-cyan-300 to-blue-200 text-[hsl(var(--soda-depth))] 
+                  shadow-lg hover:shadow-[0_0_20px_rgba(103,232,249,0.5)]
+                `}
               >
-                <ShoppingBag className="w-4 h-4" />
-                <span className="text-sm font-medium">Cart</span>
-                {totalItems > 0 && (
-                  <span className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-aqua text-ocean-deep text-xs font-bold flex items-center justify-center">
-                    {totalItems}
-                  </span>
-                )}
+                Order Now
               </button>
             </div>
 
             {/* Mobile Menu Button */}
-            <div className="flex items-center gap-4 md:hidden">
-              <button
-                onClick={() => setIsCartOpen(true)}
-                className={`relative p-2 rounded-full transition-colors ${
-                  isScrolled ? "text-ocean-deep" : "text-white"
-                }`}
-              >
-                <ShoppingBag className="w-5 h-5" />
-                {totalItems > 0 && (
-                  <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-aqua text-ocean-deep text-[10px] font-bold flex items-center justify-center">
-                    {totalItems}
-                  </span>
-                )}
-              </button>
-              
-              <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className={`p-2 rounded-full transition-colors ${
-                  isScrolled ? "text-ocean-deep" : "text-white"
-                }`}
-              >
-                {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-              </button>
-            </div>
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className={`md:hidden p-2 rounded-full transition-colors z-50 relative ${
+                isMobileMenuOpen || isScrolled
+                  ? "text-[hsl(var(--soda-depth))]" 
+                  : "text-white"
+              }`}
+            >
+              {isMobileMenuOpen ? (
+                <X className="w-8 h-8" />
+              ) : (
+                <Menu className="w-8 h-8" />
+              )}
+            </button>
           </div>
         </div>
       </motion.nav>
@@ -136,9 +125,9 @@ const Navbar = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="fixed top-16 left-0 right-0 z-40 bg-white/95 backdrop-blur-xl shadow-lg border-b border-border md:hidden"
+            className="fixed top-0 left-0 right-0 z-40 bg-white shadow-2xl border-b border-gray-100 md:hidden pt-24 pb-10"
           >
-            <div className="container-custom py-4">
+            <div className="container-custom space-y-2">
               {navLinks.map((link, index) => (
                 <motion.a
                   key={link.name}
@@ -150,11 +139,22 @@ const Navbar = () => {
                     e.preventDefault();
                     scrollToSection(link.href);
                   }}
-                  className="block py-3 text-foreground font-medium hover:text-ocean-mid transition-colors"
+                  className="block py-4 text-[hsl(var(--soda-depth))] text-lg font-serif font-medium border-b border-gray-100 hover:text-[hsl(var(--soda-primary))] hover:pl-2 transition-all"
                 >
                   {link.name}
                 </motion.a>
               ))}
+              
+              {/* Mobile Order Now Button */}
+              <motion.button
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: navLinks.length * 0.1 }}
+                onClick={handleOrderNow}
+                className="w-full mt-8 py-4 bg-gradient-to-r from-cyan-300 to-blue-200 text-[hsl(var(--soda-depth))] rounded-xl font-bold uppercase tracking-widest shadow-xl hover:shadow-[0_0_20px_rgba(103,232,249,0.5)] transition-all"
+              >
+                Order Now
+              </motion.button>
             </div>
           </motion.div>
         )}

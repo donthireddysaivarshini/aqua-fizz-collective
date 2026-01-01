@@ -3,8 +3,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { X, Minus, Plus, Trash2, ShoppingBag } from "lucide-react";
 import { useCart } from "@/context/CartContext";
 
-const WHATSAPP_NUMBER = "447940392567";
-const CURRENCY_SYMBOL = "£";
+const WHATSAPP_NUMBER = "919505055055";
+const CURRENCY_SYMBOL = "₹";
 
 const WhatsAppIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5">
@@ -106,13 +106,14 @@ const CartDrawer = () => {
                     exit={{ opacity: 0, x: -20 }}
                     className="flex gap-4 p-4 bg-card rounded-xl border border-border"
                   >
-                    {/* Item Color/Image */}
-                    <div
-                      className="w-16 h-16 rounded-lg flex-shrink-0"
-                      style={{
-                        background: `linear-gradient(135deg, ${item.color}80, ${item.color})`,
-                      }}
-                    />
+                    {/* Item Image - CHANGED TO SHOW IMAGE */}
+                    <div className="w-16 h-16 rounded-lg flex-shrink-0 border border-border bg-secondary/20 flex items-center justify-center overflow-hidden">
+                       <img 
+                          src={item.image} 
+                          alt={item.name} 
+                          className="w-full h-full object-contain p-1"
+                       />
+                    </div>
 
                     {/* Item Details */}
                     <div className="flex-1 min-w-0">

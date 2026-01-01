@@ -3,80 +3,71 @@ export interface Product {
   name: string;
   flavor: string;
   price: number;
-  image: string;
   color: string;
   category: string;
+  image: string;
 }
-
-export const categories = ['All', 'Classic', 'Fruity', 'Premium'] as const;
 
 export const products: Product[] = [
   {
     id: 1,
-    name: "Blue Lagoon",
-    flavor: "Blue Raspberry",
-    price: 2.49,
-    image: "/placeholder.svg",
+    name: "Blue Berry Blast",
+    flavor: "Blueberry Soda",
+    price: 20, // Updated to ₹20
     color: "#05BFDB",
-    category: "Premium",
+    category: "All",
+    image: "/images/blueberry.png",
   },
   {
     id: 2,
-    name: "Classic Clear",
-    flavor: "Original Soda",
-    price: 1.99,
-    image: "/placeholder.svg",
-    color: "#E8F4F8",
-    category: "Classic",
+    name: "Clear Lemon Masala",
+    flavor: "Spicy Lemon",
+    price: 20, // Updated to ₹20
+    color: "#FFF700",
+    category: "All",
+    image: "/images/clearelemon.png",
   },
   {
     id: 3,
-    name: "Berry Burst",
-    flavor: "Mixed Berry",
-    price: 2.49,
-    image: "/placeholder.svg",
-    color: "#8B1874",
-    category: "Fruity",
+    name: "Cola Classic",
+    flavor: "Traditional Cola",
+    price: 20, // Updated to ₹20
+    color: "#8B0000",
+    category: "All",
+    image: "/images/cola.png",
   },
   {
     id: 4,
-    name: "Mango Twist",
-    flavor: "Alphonso Mango",
-    price: 2.49,
-    image: "/placeholder.svg",
-    color: "#FF9F29",
-    category: "Fruity",
+    name: "Orange Burst",
+    flavor: "Zesty Orange",
+    price: 20, // Updated to ₹20
+    color: "#FFA500",
+    category: "All",
+    image: "/images/orange.png",
   },
   {
     id: 5,
-    name: "Sunset Orange",
-    flavor: "Blood Orange",
-    price: 2.49,
-    image: "/placeholder.svg",
-    color: "#FF5C00",
-    category: "Fruity",
+    name: "Strawberry",
+    flavor: "Sweet & Sour",
+    price: 20, // Updated to ₹20
+    color: "#FF4081",
+    category: "All",
+    image: "/images/lemonstrawberry.png",
   },
   {
     id: 6,
-    name: "Golden Fizz",
-    flavor: "Pineapple",
-    price: 2.49,
-    image: "/placeholder.svg",
-    color: "#FFB800",
-    category: "Fruity",
-  },
-  {
-    id: 7,
-    name: "Citrus Splash",
-    flavor: "Lemon Lime",
-    price: 2.29,
-    image: "/placeholder.svg",
-    color: "#C4E538",
-    category: "Classic",
+    name: "Summer Refreshment",
+    flavor: "Mixed Fruit",
+    price: 30, // Updated to ₹30
+    color: "#00E676",
+    category: "All",
+    image: "/images/refreshment.png",
   },
 ];
 
+export const categories = ["All"];
+
 export const getProductsByCategory = (category: string): Product[] => {
-  if (category === 'All') return products;
-  return products.filter(p => p.category === category);
+  if (category === "All") return products;
+  return products.filter((product) => product.category === category);
 };

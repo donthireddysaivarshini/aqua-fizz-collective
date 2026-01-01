@@ -8,6 +8,11 @@ export default defineConfig(({ mode }) => ({
   server: {
     host: "::",
     port: 8080,
+    // FIX: allowedHosts belongs here, inside 'server'
+    allowedHosts: [
+      "unmistaking-unsymbolic-jadiel.ngrok-free.dev",
+      "all" // Optional: keeps it open for other tunnels
+    ],
   },
   plugins: [react(), mode === "development" && componentTagger()].filter(Boolean),
   resolve: {
