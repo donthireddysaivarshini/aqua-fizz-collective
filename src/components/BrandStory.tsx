@@ -137,7 +137,7 @@ const BrandStory = () => {
             <div className="flex flex-wrap justify-center lg:justify-start gap-8 pt-6">
               <div className="text-center">
                 <div className="text-3xl md:text-4xl font-serif font-bold text-ocean-deep">
-                  50+
+                  3+
                 </div>
                 <p className="text-sm text-muted-foreground">
                   Years of Heritage
@@ -145,7 +145,7 @@ const BrandStory = () => {
               </div>
               <div className="text-center">
                 <div className="text-3xl md:text-4xl font-serif font-bold text-ocean-mid">
-                  6
+                  150+
                 </div>
                 <p className="text-sm text-muted-foreground">
                   Unique Flavours

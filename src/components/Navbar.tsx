@@ -61,7 +61,7 @@ const Navbar = () => {
               className="flex items-center gap-2"
             >
               <img 
-                src="/images/logo.png" 
+                src="/images/Logo.jpg" 
                 alt="Andhra Goli Soda" 
                 className="h-12 md:h-16 w-auto object-contain transition-transform duration-300 hover:scale-105"
               />
