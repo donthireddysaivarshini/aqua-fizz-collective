@@ -131,3 +131,4 @@ const ProductSection = () => {
 };
 
 export default ProductSection;
+//detail
